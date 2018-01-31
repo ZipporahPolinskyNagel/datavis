@@ -5,62 +5,46 @@ library(shiny)
 
 # Define UI for application that draws bar graph
 shinyUI(fluidPage(
+  theme = "bootstrap.css",
   
   # Application title
-  titlePanel("Department of Consumer Affairs charges for 2016-2017"),
+  headerPanel("Department of Consumer Affairs charges for 2016-2017"),
   
-  
-  sidebarLayout(
-    sidebarPanel(
+  sidebarPanel(
       
       radioButtons("drilldown", # choose the drilldown
                   label = "Drill down by ",
                   choices = c("Borough", "Industry", "Charge type"),
                   selected = "Borough"),
 
-      checkboxGroupInput("year", label = "Year",
-                         choices = c("2016","2017"),
-                         selected = "2016")
+      #checkboxGroupInput("year", label = "Year",
+      #                   choices = c("2016","2017"),
+      #                   selected = "2016"),
+      
+      sliderInput("industry_number", label = "No. Industries",
+                  min = 1, max = 50,
+                  value = 20, step = 1,
+                  pre = "", sep = "",
+                  animate = TRUE),
+      
+      sliderInput("charge_number", label = "No. Charge types",
+                  min = 1, max = 50,
+                  value = 20, step = 1,
+                  pre = "", sep = "",
+                  animate = TRUE)
     ),
     
     # Show a bar graph
    mainPanel(
-    textOutput("header"),
-    tableOutput("test"),
-   plotOutput("bar", height = "300px")
+     tabsetPanel(
+       tabPanel("Plots", plotOutput("bar",  width = "100%")),
+       tabPanel("Word cloud", plotOutput("words", width = "100%")),
+       #tabPanel("Over time", tableOutput("table")),
+       tabPanel("Charge types", tableOutput("charges"))
+     )
    )
     
   )
-))
+)
   
-  
-  
-  
-  
- # sidebarLayout(
-  #  sidebarPanel(
-      
-  #    selectInput("eth", # choose the race
-  #                label = "Choose a ethinicity to display",
-  #                choices = c("White", "Black", "Hispanic", "Asian", "All 4 Races"),
-  #                selected = "Black"),
-  #    selectInput("s", # choose the sex
-  #                label = "Choose a sex to display",
-   #               choices = c("Male","Female"),
-   #               selected = "Male"),
-  #    sliderInput("r", label = "Year",
-   #               min = 2007, max = 2014,
-   #               value = 2007, step = 1,
-   #               pre = "", sep = "",
-   #               animate = TRUE)
-   # ),
-    
-  #Show a bar graph
-   # mainPanel(
-   #   textOutput("head"),
-   #   tableOutput("t"),
-   #   plotOutput("b", height = "300px")
-   # )
-    
-  #)
 
